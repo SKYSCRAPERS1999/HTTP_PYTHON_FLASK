@@ -2,6 +2,7 @@ from test1 import db
 from datetime import datetime
 from flask_login import UserMixin
 from test1 import login
+from hashlib import md5
 
 class Category(db.Model):
     __tablename__ = 'b_category'
@@ -30,8 +31,12 @@ class User(UserMixin, db.Model):
     def __init__(self,username,password):
         self.username = username
         self.password = password
+
     def __repr__(self):
         return '<User %r>' % self.username
+    def avatar(self, size):
+        digest = md5((self.username.lower() + '@gmail.com').encode('utf-8')).hexdigest()
+        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
 
 @login.user_loader
 def load_user(id):

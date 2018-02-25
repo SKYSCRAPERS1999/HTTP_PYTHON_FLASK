@@ -3,6 +3,7 @@ from flask import Flask, request, url_for, render_template, redirect, flash, ses
 from test1 import app, db
 from flask_login import current_user, login_user, logout_user, login_required
 from test1.model.forms import LoginForm, RegistrationForm
+from datetime import datetime
 
 @app.route('/')
 def show_entries():
@@ -57,5 +58,22 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+@app.route('/user/<username>')
+@login_required
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    if user == current_user:
+        entries = [
+            {'author':user, 'title' : 'Test post #1', 'content' : 'the last day of winter vacation!'},
+            {'author':user, 'title': 'Test post #2', 'content': 'the last day of winter vacation!!!'}
+        ]
+        return render_template('user.html', user=user, entries = entries)
+    else:
+        flash('Permission denied')
+        return redirect(url_for('show_entries'))
+
+# @app.before_request
+# def before_request():
+#     if current_user.is_authenticated:
+#         current_user.last_seen = datetime.utcnow()
+#         db.session.commit()

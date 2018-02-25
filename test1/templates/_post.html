@@ -1,0 +1,9 @@
+<table>
+    <tr valign="top">
+        <td><img src="{{ entry.author.avatar(20) }}"></td><br>
+        <td><h2>{{ entry.title }}</h2>{{ entry.content|safe }}</td><br>
+{#        {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}#}
+{#        {% if user.last_seen %}<p>Last seen on: {{ user.last_seen }}</p>{% endif %}#}
+        <td>says : {{ entry.author.username }}</td>
+    </tr>
+</table>

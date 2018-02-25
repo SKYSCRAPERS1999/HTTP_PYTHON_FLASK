@@ -16,10 +16,7 @@
     <div>
         <dt class=entries>
             {% for entry in entries %}
-                <dt><h2>{{ entry.title }}</h2>{{ entry.content|safe }}</dt>
-                <p>says : {{ entry.author.username }}</p>
-            {% else %}
-            <dt><em>Unbelievable.  No entries here so far</em><br>
+                {% include '_post.html' %}
             {% endfor %}
         </dt>
     </div>
